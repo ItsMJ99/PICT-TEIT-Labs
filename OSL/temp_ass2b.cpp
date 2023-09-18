@@ -1,73 +1,57 @@
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-void sortArray(int arr[], int n)
-{
-    for (int i = 0; i < n - 1; i++)
-    {
-        for (int j = 0; j < n - i - 1; j++)
-        {
-            if (arr[j] > arr[j + 1])
-            {
-                int temp = arr[j];
-                arr[j] = arr[j + 1];
-                arr[j + 1] = temp;
-            }
-        }
-    }
+
+int compare(const void *a, const void *b) {
+    return (*(int *)a - *(int *)b);
 }
-int main()
-{
+
+int main() {
     int n;
-    printf("Enter the size of array: ");
+    printf("Enter the number of integers: ");
     scanf("%d", &n);
+
     int arr[n];
-    printf("Enter the elements of the array: ");
-    for (int i = 0; i < n; i++)
-    {
+    printf("Enter %d integers: ", n);
+    for (int i = 0; i < n; i++) {
         scanf("%d", &arr[i]);
     }
-    pid_t pid = fork();
-    if (pid < 0)
-    {
-        fprintf(stderr, "Fork failed\n");
-        return 1;
-    }
-    else if (pid == 0)
-    {
+
+    qsort(arr, n, sizeof(int), compare);
+
+    pid_t pid = fork(); // Create a child process
+
+    if (pid < 0) {
+        perror("Fork failed");
+        exit(1);
+    } else if (pid == 0) {
         // Child process
-        printf("Main process start: (pid) %d\n", getpid());
-        sortArray(arr, n);
-        printf("Sorted array: ");
-        for (int i = 0; i < n; i++)
-        {
+        char *args[4];
+        args[0] = const_cast<char*>("./temp_ass2b_2.c"); // Name of the child program
+        args[1] = NULL;
+        args[2] = NULL;
+        args[3] = NULL;
+
+        execve(args[0], args, NULL);
+        perror("Execve failed");
+        exit(1);
+    } else {
+        // Parent process
+        // Wait for the child process to finish
+        int status;
+        wait(&status);
+
+        // Pass the sorted array to the child process using command line arguments
+        printf("Parent Process: Passing sorted array to child process...\n");
+        for (int i = 0; i < n; i++) {
             printf("%d ", arr[i]);
         }
         printf("\n");
-        char *args[n + 2];
-        args[0] = "./cp";
-        for (int i = 0; i < n; i++)
-        {
-            char buffer[10];
-            snprintf(buffer, sizeof(buffer), "%d", arr[i]); // converts int to string format and
-            pass them into the buffer
-                args[i + 1] = strdup(buffer); // strdup:- (string duplicate) create a new copy of the
-            string
-        }
-        args[n + 1] = NULL; // indicate the end of the list of command-line arguments.
-        execve(args[0], args, NULL);
-        perror("execve");
-        printf("Main process end: (pid) %d\n", getpid());
-        return 1;
+
+        printf("Parent process is exiting.\n");
     }
-    else
-    {
-        // Parent process
-        wait(NULL);
-        printf("Parent process finished.\n");
-    }
+
     return 0;
 }

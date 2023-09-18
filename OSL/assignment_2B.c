@@ -2,7 +2,7 @@
 #include<unistd.h>
 #include<stdlib.h>
 #include<sys/wait.h>
-#include<sys/type.h>
+#include<sys/types.h>
 
 void bubbleSort(int arr[],int n){
     for(int i=0;i<n;i++){
@@ -27,25 +27,24 @@ int main(){
     pid_t pid=fork();
     if(pid<0){
         printf("FORK was Unsuccessful!!!\n");
-        _exit(1);
+        exit(1);
     }
-    else if(){
-        printf("Process started with pid : %d\n", getpid());
+    else if(pid==0){
+        printf("Process Started with PID : %d",getpid());
         bubbleSort(arr,n);
-        printf("Sorted array : ");
-        for (int i = 0; i < n; i++)
-        {
-            printf("%d ", arr[i]);
+        printf("\nSorted Array : ");
+        for(int i=0;i<n;i++){
+            printf("\t%d",arr[i]);
         }
-        printf("\n");
-        char *args[n+2];
-        arg[0]="./cp";
-        exec(args[0],args,NULL);
-        return 1;
+        char *args[] = { "./assignment_2B_2.c", "12", "34", "23", NULL };
+        execve(args[0], args, NULL);
+        perror("Execve Failed");
+        exit(1);
     }
     else{
-        wait(NULL);
-        printf("Parent Process Completed!!!\n");
+        int status;
+        wait(&status);
+        printf("\nParent Process Completed!!!\n");
     }
     return 0;
 }
