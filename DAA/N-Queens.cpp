@@ -36,6 +36,20 @@ bool isSafe(int row, int col, vector<string> board, int n)
     return true;
 }
 
+void printBoard(vector<string> &board)
+{
+    for (const string &row : board)
+    {
+        cout << "|";
+        for (char cell : row)
+        {
+            cout << cell << " ";
+        }
+        cout << "|" << endl;
+    }
+    cout << endl;
+}
+
 void solve(int col, vector<string> &board, vector<vector<string>> &ans, int n)
 {
     if (col == n)
@@ -48,8 +62,16 @@ void solve(int col, vector<string> &board, vector<vector<string>> &ans, int n)
         if (isSafe(row, col, board, n))
         {
             board[row][col] = 'Q';
+            // Print the board after placing a Queen
+            cout << "Placing Queen at (" << row << ", " << col << ")" << endl;
+            printBoard(board);
+
             solve(col + 1, board, ans, n);
+
+            // Backtracking: Reset the cell to empty
             board[row][col] = '.';
+            cout << "Backtracking from (" << row << ", " << col << ")" << endl;
+            printBoard(board);
         }
     }
 }
