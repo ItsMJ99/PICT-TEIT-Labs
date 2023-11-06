@@ -1,0 +1,1 @@
+{"name":"Local: temp","url":"c:\\MJ\\College\\PICT\\PICT-TEIT-Labs\\OSL\\temp.cpp","tests":[{"id":1699116130570,"input":"1\n5\n2 6\n5 2\n1 8\n0 3\n4 4","output":""},{"id":1699207084651,"input":"2","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\MJ\\College\\PICT\\PICT-TEIT-Labs\\OSL\\temp.cpp","group":"local","local":true}
