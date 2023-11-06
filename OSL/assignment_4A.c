@@ -22,12 +22,12 @@ void printBuffer(){
 }
 
 void *producer(void *args){
-    int items;
+    int item;
     while(1){
         item =rand()%100;
         sem_wait(&empty);
         pthread_mutex_lock(&mutex);
-        buffer[in]=iteam;
+        buffer[in]=item;
         printf("Prodcer %d Produced: %d\n",in, item);
         in=(in+1)%BUFFER_SIZE;
         pthread_mutex_unlock(&mutex);
@@ -48,7 +48,7 @@ void *consumer(void *args){
         out = (out + 1) % BUFFER_SIZE;
         pthread_mutex_unlock(&mutex);
         sem_post(&empty);
-        print_buffer();
+        printBuffer();
         sleep(5);
     }
     pthread_exit(NULL);
@@ -58,16 +58,16 @@ int main(){
     pthread_t producer_thread, consumer_thread;
     sem_init(&empty,0,BUFFER_SIZE);
     sem_init(&full,0,0);
-    pthread-mutex_init(&mutex,NULL);
+    pthread_mutex_init(&mutex,NULL);
 
     pthread_create(&producer_thread,NULL,producer,NULL);
     pthread_create(&consumer_thread,NULL,consumer,NULL);
 
-    pthread_join(&producer_thread,NULL);
-    pthread_join(&consumer_thread,NULL);
+    pthread_join(producer_thread,NULL);
+    pthread_join(consumer_thread,NULL);
 
     sem_destroy(&empty);
     sem_destroy(&full);
-    pthread-mutex_destroy(&mutex,NULL);
+    pthread_mutex_destroy(&mutex);
     return 0;
 }
