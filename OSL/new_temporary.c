@@ -1,148 +1,75 @@
-#include <pthread.h>
-#include <unistd.h> 
-#include <stdio.h>
-#include <stdlib.h>
-#include <semaphore.h>
-//#include <file.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<pthread.h>
+#include<semaphore.h>
+#include<unistd.h>
 
-#define SIZE 10
-int position=0; //nth character to be read.
-sem_t wsem;
-sem_t rsem;
-pthread_mutex_t lock;
-int read_count;
+sem_t mutex;
+sem_t wrt;
+int readcount=0,nwt,nrd;
 
+void *reader_thread(void *temp){
+	int *id_ptr=(int *)temp;
+	int id=*id_ptr;
+	free(id_ptr);
+	printf("Reader %d is trying to enter the Database for reading\n",id);
+	sem_wait(&mutex);
+	readcount++;
+	if(readcount==1)
+		sem_wait(&wrt);
+	sem_post(&mutex);
 
+	printf("Reader %d is reading from the database\n",id);
+	sem_wait(&mutex);
+	readcount--;
+	if(readcount==0)
+		sem_post(&wrt);
+	sem_post(&mutex);
+	printf("Reader %d left the Database\n",id);
+	sleep(5);
+	pthread_exit(NULL);
+}
 
-void* writer(void* arg)
-{
-	
-	int index,z;
-	
-	char buffer[7];
-	index=*(int*)arg; //nth writer.
-	int value;
-	FILE *mainfp,*writerfp; //mainfp for 'antony', writerfp for 'filewrite'
-	mainfp=fopen("antony","r");//IN READ MODE 
-	if(mainfp!=NULL)
-	{
-		writerfp=fopen("filewrite","a"); //append mode
-		if(writerfp!=NULL)
-		{
-			while(1)
-			{
-				z=(rand()%10)+index;
-						
-				//sem_wait(&wsem);
-			
-				pthread_mutex_lock(&lock);
-				
-				printf("\n\nWriting %d into file %d",z,index);
-				//CRITICAL SECTION START
-				/*fread(&buffer,6*sizeof(char), 1, mainfp);
-				printf("\nreading file");	
-				printf("\n\nWriter %d is writing %s \n\n",index,buffer);
-				fwrite(&buffer,sizeof(buffer),1,writerfp);
-				
-				fseek(mainfp,6,SEEK_CUR);*/	
-				//CRITICAL SECTION END
-				pthread_mutex_unlock(&lock);
-				//sem_post(&rsem);
-			}
-			fclose(mainfp);
-			fclose(writerfp);
-		}	
-		
+void *writer_thread(void *temp){
+	int *id_ptr=(int *)temp;
+	int id=*id_ptr;
+	free(id_ptr);
+	printf("Writer %d is trying to enter the Database for writing\n",id);
+	sem_wait(&wrt);
+	printf("Writer %d is now writing in the Database\n",id);
+	sleep(5);
+	printf("Writer %d left the Database\n",id);
+	sem_post(&wrt);
+	pthread_exit(NULL);
+}
+
+int main(){
+	long int i;
+	sem_init(&mutex,0,1);
+	sem_init(&wrt,0,1);
+	pthread_t reader[100],writer[100];
+	printf("\nEnter the number of Writers : ");
+	scanf("%d",&nwt);
+	printf("\nEnter the number of Readers : ");
+	scanf("%d",&nrd);
+	for(i=1;i<=nwt;i++){
+		int *writer_id=malloc(sizeof(int));
+		*writer_id=i;
+		pthread_create(&writer[i],NULL,writer_thread,(void *)writer_id);
 	}
-}
-
-void* reader(void* arg)
-{
-	int reader_count=0;
-	FILE *writerfp,*mainfp ;
-	writerfp=fopen("filewrite","r");
-	
-	int index,z;
-	
-	char buffer[7];
-	index=*(int*)arg; //nth reader.
-	int value;
-	if(writerfp!=NULL)
-	{
-		printf("\Reader %d is reading\n\n",index);
-		while(1)
-		{
-			z=(rand()%10)+1;
-			
-			pthread_mutex_lock(&lock);
-			read_count++;
-			
-			if(read_count==1) //block writer
-				sem_wait(&wsem);
-			
-			pthread_mutex_unlock(&lock);
-			
-			/*fread(buffer, 1, 6, writerfp);
-			printf("\n\nReader %d is reading %s\n\n",index,buffer);
-			fseek(writerfp,6,SEEK_CUR);
-			*/
-			pthread_mutex_lock(&lock);
-			
-			read_count--;
-			if(read_count==0)
-				sem_wait(&wsem);
-				
-			pthread_mutex_unlock(&lock);
-			sleep(z);	
-		}
-			fclose(writerfp);
-		}
-}
-
-
-void init()
-{
-    pthread_mutex_init(&lock,NULL);
-    sem_init(&wsem, 0, 0); 
-    sem_init(&rsem, 0, 0); 
-    read_count=0;
-}
-
-void main()
-{
-	int i;
-	pthread_t read_t[SIZE],write_t[SIZE];
-	//sem_wait blocks access to the semaphore.
-	int nprod,ncons; //number of producers and consumers.
-	init();
-	
-	printf("\n\nEnter number of writers::");
-	scanf("%d",&nprod);
-	
-	printf("\n\nEnter number of readers::");
-	scanf("%d",&ncons);
-	
-	
-	init();
-	for (i = 0; i < nprod; i++) 
-	{
-     		 pthread_create(&write_t[i], NULL,*writer, &i);
-     		 printf("\n\nWriters %d starting\n\n",i);
-    	}
-    	
-    	for (i = 0; i < ncons; i++) 
-	{
-     		pthread_create(&read_t[i], NULL,*reader, &i);
-     		 printf("\n\nReaders %d starting\n\n",i);
-    	}
-    	for (i = 0; i < nprod; i++) 
-	{
-     		 pthread_join(write_t[i], NULL);
-    	}
-	
-	for (i = 0; i < ncons; i++) 
-	{
-     		 pthread_join(&read_t[i], NULL);
+	for(i=1;i<=nrd;i++){
+		int *reader_id=malloc(sizeof(int));
+		*reader_id=i;
+		pthread_create(&reader[i],NULL,reader_thread,(void *)reader_id);
 	}
-
+	for(i=1;i<=nwt;i++){
+		pthread_join(writer[i],NULL);
+	}
+	for(i=1;i<=nrd;i++){
+		pthread_join(reader[i],NULL);
+	}
+	sem_destroy(&wrt);
+	sem_destroy(&mutex);
+	pthread_exit(NULL); // Exit the main thread gracefully
+	return 0;
 }
