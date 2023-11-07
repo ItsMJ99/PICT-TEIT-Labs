@@ -1,249 +1,231 @@
-#include <stdio.h>
-#include <stdbool.h>
-#include <string.h>
-#include <limits.h>
+#include<stdio.h>
+#include<string.h>
+#include<stdbool.h>
+#include<math.h>
 
-void fifo(int frames[], int n, char s[])
-{
-    int cf = 0;
-    int pageFaults = 0;
-    int pageHits = 0;
-
-    for (int i = 0; i < strlen(s); i++)
-    {
-        bool pageFound = false;
-
-        // Check if the page is already in a frame
-        for (int j = 0; j < n; j++)
-        {
-            if (frames[j] == s[i])
-            {
-                pageFound = true;
-                pageHits++;
-                break;
-            }
-        }
-
-        if (!pageFound)
-        {
-            frames[cf] = s[i];
-            pageFaults++;
-        }
-
-        // Display the frames and indicate hits/faults
-        printf("Page %c:\t", s[i]);
-        for (int j = 0; j < n; j++)
-        {
-            printf("%c\t", frames[j]);
-        }
-        if (pageFound)
-        {
-            printf("Hit\n");
-        }
-        else
-        {
-            printf("Fault\n");
-        }
-
-        cf = (cf + 1) % n; // Move to the next frame in a circular manner
-    }
-
-    printf("Page Faults : %d\n", pageFaults);
-    printf("Page Hits : %d\n", pageHits);
-}
-
-void optimal(int frames[], int n, char s[])
-{
-    int pageFaults = 0;
-    int pageHits = 0;
-    int nextUse[n];
-
-    for (int i = 0; i < n; i++)
-    {
-        nextUse[i] = -1;
-    }
-
-    for (int i = 0; i < strlen(s); i++)
-    {
-        bool pageFound = false;
-
-        // Check if the page is already in a frame
-        for (int j = 0; j < n; j++)
-        {
-            if (frames[j] == s[i])
-            {
-                pageFound = true;
-                pageHits++;
-                break;
-            }
-        }
-
-        if (!pageFound)
-        {
-            // Page fault
-            pageFaults++;
-
-            if (pageFaults <= n)
-            {
-                // There are still empty frames, so simply add the page
-                frames[pageFaults - 1] = s[i];
-                nextUse[pageFaults - 1] = i;
-            }
-            else
-            {
-                // Find the page in frames that will not be used for the longest time
-                int replaceIndex = 0;
-                for (int j = 1; j < n; j++)
-                {
-                    if (nextUse[j] == -1)
-                    {
-                        replaceIndex = j;
-                        break;
-                    }
-                    if (nextUse[j] > nextUse[replaceIndex])
-                    {
-                        replaceIndex = j;
-                    }
-                }
-                frames[replaceIndex] = s[i];
-                nextUse[replaceIndex] = -1;
-                for (int j = i + 1; j < strlen(s); j++)
-                {
-                    if (s[j] == frames[replaceIndex])
-                    {
-                        nextUse[replaceIndex] = j;
-                        break;
-                    }
-                }
-            }
-        }
-
-        // Display the frames and indicate hits/faults
-        printf("Page %c:\t", s[i]);
-        for (int j = 0; j < n; j++)
-        {
-            printf("%c\t", frames[j]);
-        }
-        if (pageFound)
-        {
-            printf("Hit\n");
-        }
-        else
-        {
-            printf("Fault\n");
-        }
-    }
-
-    printf("Optimal Page Faults: %d\n", pageFaults);
-    printf("Optimal Page Hits: %d\n", pageHits);
-}
-
-bool checkHit(char page, char frames[], int n)
-{
-    for (int i = 0; i < n; i++)
-    {
-        if (frames[i] == page)
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
-void printFrame(char frames[], int n)
-{
-    for (int i = 0; i < n; i++)
-    {
-        printf("%c\t", frames[i]);
-    }
-    for (int i = n; i < 3; i++)
-    {
-        printf("\t");
-    }
-}
-
-void lru(int n, char s[])
-{
-    char frames[n];
-    int occupied = 0;
-    int pageFault = 0;
-    int pageHits = 0;
-
-    for (int i = 0; i < strlen(s); i++)
-    {
-        printf("Page %c:\t", s[i]);
-
-        if (checkHit(s[i], frames, n))
-        {
-            printFrame(frames, n);
-            printf("Hit\n");
-            pageHits++;
-        }
-        else if (occupied < n)
-        {
-            frames[occupied] = s[i];
-            pageFault++;
-            occupied++;
-            printFrame(frames, n);
-            printf("Fault\n");
-        }
-        else
-        {
-            int lruIndex = 0;
-            int minUse = INT_MAX;
-
-            for (int j = 0; j < n; j++)
-            {
-                int lastUse = INT_MAX;
-
-                for (int k = i - 1; k >= 0; k--)
-                {
-                    if (s[k] == frames[j])
-                    {
-                        lastUse = k;
-                        break;
-                    }
-                }
-
-                if (lastUse < minUse)
-                {
-                    minUse = lastUse;
-                    lruIndex = j;
-                }
-            }
-
-            frames[lruIndex] = s[i];
-            pageFault++;
-            printFrame(frames, n);
-            printf("Fault\n");
-        }
-    }
-
-    printf("LRU Page Faults: %d\n", pageFault);
-    printf("LRU Page Hits: %d\n", pageHits);
-}
-
-int main()
-{
+void fifo(){
+    int f;
     char s[100];
-    printf("Enter String: ");
+    printf("Enter the Pages string : ");
+    scanf("%s",s);
+    printf("Enter the number of Frames : ");
+    scanf("%d",&f);
+    int pageHits=0;
+    int pageFaults=0;
+    int cf=0;
+    char frames[f];
+     printf("\n\t");
+    for(int i=0;i<f;i++){
+        printf("\tF%d",i+1);
+    }
+    printf("\n");
+    for(int i=0;i<strlen(s);i++){
+        bool found=false;
+        for(int j=0;j<f;j++){
+            if(frames[j]==s[i]){
+                found=true;
+                pageHits++;
+                break;
+            }
+        }
+        if(!found){
+            frames[cf]=s[i];
+            pageFaults++;
+        }
+        printf("Page %c :\t",s[i] );
+        for(int i=0;i<f;i++){
+            printf("%c\t",frames[i]);
+        }
+        if(found){
+            printf("Hit\n");
+        } 
+        else{
+            printf("Fault\n");
+            cf=(cf+1)%f;
+        }
+    }
+    printf("\n\nTotal Number of Page Hits : %d",pageHits);
+    printf("\nTotal Number of Page Faults : %d\n\n",pageFaults);
+}
+
+void optimal(){
+    int f;
+    char s[100];
+    printf("Enter the Pages string : ");
+    scanf("%s",s);
+    printf("Enter the number of Frames : ");
+    scanf("%d",&f);
+    char frames[f];
+    int pageHits=0;
+    int pageFaults=0;
+
+    printf("\n\t");
+    for(int i=0;i<f;i++){
+        printf("F%d\t",i+1);
+    }
+    printf("\n");
+    for (int i = 0; i < f; i++) {
+        frames[i] = '\0'; // Initialize frames to NULL character
+    }
+    for(int i=0;i<strlen(s);i++){
+        bool found=false;
+        for(int j=0;j<f;j++){
+            if(frames[j]==s[i]){
+                pageHits++;
+                found=true;
+                break;
+            }
+        }
+        if (!found) {
+            if (pageFaults < f) {
+                frames[pageFaults] = s[i];
+            } else {
+                int ind[f];
+                for (int m = 0; m < f; m++) {
+                    ind[m] = -1;
+                    for (int n = i + 1; n < strlen(s); n++) {
+                        if (frames[m] == s[n]) {
+                            ind[m] = n;
+                            break;
+                        }
+                    }
+                }
+                int im = 0;
+                for (int x = 0; x < f; x++) {
+                    if (ind[x] == -1 || (ind[im] != -1 && ind[x] > ind[im])) {
+                        im = x;
+                    }
+                }
+                frames[im] = s[i];
+            }
+        pageFaults++;
+        }
+
+
+        printf("Page %c : ",s[i]);
+        for(int k=0;k<f;k++){
+             if (frames[k] != '\0') {
+                printf("%c\t", frames[k]);
+            } else {
+                printf(" \t"); // Empty frame
+            }
+        }
+        if(found){
+            printf("Hit\n");
+        }
+        else{
+            printf("Fault\n");
+        }
+    }
+    printf("\n\nTotal Number of Page Hits : %d",pageHits);
+    printf("\nTotal Number of Page Faults : %d\n\n",pageFaults);
+}
+
+void lru() {
+    int f;
+    char s[100];
+    printf("Enter the Pages string: ");
     scanf("%s", s);
+    printf("Enter the number of Frames: ");
+    scanf("%d", &f);
+    char frames[f];
+    int pageHits = 0;
+    int pageFaults = 0;
+    int age[f]; // Array to keep track of age for each frame
 
-    int n;
-    printf("Enter the number of frames: ");
-    scanf("%d", &n);
+    printf("\n\t");
+    for (int i = 0; i < f; i++) {
+        printf("F%d\t", i + 1);
+        age[i] = 0;
+    }
+    printf("\n");
 
-    int frames[n];
-    printf("\nFIFO Solution : \n");
-    fifo(frames, n, s);
+    for (int i = 0; i < f; i++) {
+        frames[i] = '\0'; // Initialize frames to NULL character
+    }
 
-    int oframes[n];
-    printf("\nOprimal Solution : \n");
-    optimal(oframes, n, s);
+    for (int i = 0; i < strlen(s); i++) {
+        bool found = false;
+        for (int j = 0; j < f; j++) {
+            if (frames[j] == s[i]) {
+                pageHits++;
+                found = true;
+                // Update the age of the frame
+                age[j] = 0;
+                // Increment age for other frames
+                for (int k = 0; k < f; k++) {
+                    if (k != j) {
+                        age[k]++;
+                    }
+                }
+            } else {
+                // Increment the age for frames that are not hit
+                age[j]++;
+            }
+        }
+        if (!found) {
+            if (pageFaults < f) {
+                frames[pageFaults] = s[i];
+                age[pageFaults] = 0;
+            } else {
+                int max_age = age[0];
+                int max_age_index = 0;
+                // Find the frame with the maximum age
+                for (int k = 1; k < f; k++) {
+                    if (age[k] > max_age) {
+                        max_age = age[k];
+                        max_age_index = k;
+                    }
+                }
+                frames[max_age_index] = s[i];
+                age[max_age_index] = 0;
+            }
+            pageFaults++;
+        }
 
-    int lruframes[n];
-    printf("\nLRU Solution : \n");
-    lru(n, s);
+        printf("Page %c : ", s[i]);
+        for (int k = 0; k < f; k++) {
+            if (frames[k] != '\0') {
+                printf("%c\t", frames[k]);
+            } else {
+                printf(" \t"); // Empty frame
+            }
+        }
+        if (found) {
+            printf("Hit\n");
+        } else {
+            printf("Fault\n");
+        }
+    }
 
+    printf("\n\nTotal Number of Page Hits: %d", pageHits);
+    printf("\nTotal Number of Page Faults: %d\n\n", pageFaults);
+}
+
+int main(){
+    int c=0,ch;
+    while(c==0){
+        printf("==========Menu==========");
+        printf("\n0.Exit\n1.FIFO / FCFS\n2.Optimal\n3.LRU\n");
+        printf("Enter your choice : ");
+        scanf("%d",&ch);
+        switch(ch){
+            case 0:
+                c=1;
+                break;
+            case 1:
+                fifo();
+                break;
+            case 2:
+                optimal();
+                break;
+            case 3:
+                lru();
+                break;
+            default:
+                printf("Invalid Input !!! ");
+        }
+    }
     return 0;
 }
+ 
