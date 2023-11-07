@@ -1,231 +1,208 @@
-#include<stdio.h>
-#include<string.h>
-#include<stdbool.h>
-#include<math.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <limits.h>
+using namespace std;
 
-void fifo(){
-    int f;
-    char s[100];
-    printf("Enter the Pages string : ");
-    scanf("%s",s);
-    printf("Enter the number of Frames : ");
-    scanf("%d",&f);
-    int pageHits=0;
-    int pageFaults=0;
-    int cf=0;
-    char frames[f];
-     printf("\n\t");
-    for(int i=0;i<f;i++){
-        printf("\tF%d",i+1);
-    }
-    printf("\n");
-    for(int i=0;i<strlen(s);i++){
-        bool found=false;
-        for(int j=0;j<f;j++){
-            if(frames[j]==s[i]){
-                found=true;
-                pageHits++;
-                break;
-            }
-        }
-        if(!found){
-            frames[cf]=s[i];
-            pageFaults++;
-        }
-        printf("Page %c :\t",s[i] );
-        for(int i=0;i<f;i++){
-            printf("%c\t",frames[i]);
-        }
-        if(found){
-            printf("Hit\n");
-        } 
-        else{
-            printf("Fault\n");
-            cf=(cf+1)%f;
-        }
-    }
-    printf("\n\nTotal Number of Page Hits : %d",pageHits);
-    printf("\nTotal Number of Page Faults : %d\n\n",pageFaults);
+int ds = 200;
+
+void scan(int n, int head, vector<int> &req, string dir)
+{
+	vector<int> ans;
+	int seek_time = 0;
+	vector<int> left, right;
+	if (dir == "left")
+	{
+		left.push_back(0);
+	}
+	else
+	{
+		right.push_back(ds - 1);
+	}
+
+	for (int i = 0; i < n; i++)
+	{
+		if (req[i] < head)
+		{
+			left.push_back(req[i]);
+		}
+		else
+		{
+			right.push_back(req[i]);
+		}
+	}
+	sort(left.begin(), left.end());
+	sort(right.begin(), right.end());
+
+	int run = 2;
+	while (run--)
+	{
+		if (dir == "left")
+		{
+			for (int i = left.size() - 1; i >= 0; i--)
+			{
+				int cur = left[i];
+				ans.push_back(left[i]);
+				int dis = abs(cur - head);
+				seek_time += dis;
+				head = cur;
+			}
+			dir = "right";
+		}
+		else
+		{
+			for (int i = 0; i < right.size(); i++)
+			{
+				int cur = right[i];
+				ans.push_back(right[i]);
+				int dis = abs(cur - head);
+				seek_time += dis;
+				head = cur;
+			}
+			dir = "left";
+		}
+	}
+	cout << "Seek sequence: ";
+	for (int i = 0; i < ans.size(); i++)
+	{
+		cout << ans[i] << " ";
+	}
+	cout << endl;
+	cout << "Total seek time: " << seek_time << endl;
 }
 
-void optimal(){
-    int f;
-    char s[100];
-    printf("Enter the Pages string : ");
-    scanf("%s",s);
-    printf("Enter the number of Frames : ");
-    scanf("%d",&f);
-    char frames[f];
-    int pageHits=0;
-    int pageFaults=0;
+void clook(int n, int head, vector<int> &req)
+{
+	vector<int> ans;
+	int seek_time = 0;
+	vector<int> left, right;
+	for (int i = 0; i < n; i++)
+	{
+		if (req[i] < head)
+		{
+			left.push_back(req[i]);
+		}
+		else
+		{
+			right.push_back(req[i]);
+		}
+	}
+	sort(left.begin(), left.end());
+	sort(right.begin(), right.end());
 
-    printf("\n\t");
-    for(int i=0;i<f;i++){
-        printf("F%d\t",i+1);
-    }
-    printf("\n");
-    for (int i = 0; i < f; i++) {
-        frames[i] = '\0'; // Initialize frames to NULL character
-    }
-    for(int i=0;i<strlen(s);i++){
-        bool found=false;
-        for(int j=0;j<f;j++){
-            if(frames[j]==s[i]){
-                pageHits++;
-                found=true;
-                break;
-            }
-        }
-        if (!found) {
-            if (pageFaults < f) {
-                frames[pageFaults] = s[i];
-            } else {
-                int ind[f];
-                for (int m = 0; m < f; m++) {
-                    ind[m] = -1;
-                    for (int n = i + 1; n < strlen(s); n++) {
-                        if (frames[m] == s[n]) {
-                            ind[m] = n;
-                            break;
-                        }
-                    }
-                }
-                int im = 0;
-                for (int x = 0; x < f; x++) {
-                    if (ind[x] == -1 || (ind[im] != -1 && ind[x] > ind[im])) {
-                        im = x;
-                    }
-                }
-                frames[im] = s[i];
-            }
-        pageFaults++;
-        }
+	for (int i = 0; i < right.size(); i++)
+	{
+		int cur = right[i];
+		ans.push_back(cur);
+		int dis = abs(cur - head);
+		seek_time += dis;
+		head = cur;
+	}
+	seek_time += abs(head - left[0]);
+	head = left[0];
+	for (int i = 0; i < left.size(); i++)
+	{
+		int cur = left[i];
+		ans.push_back(cur);
+		int dis = abs(cur - head);
+		seek_time += dis;
+		head = cur;
+	}
 
-
-        printf("Page %c : ",s[i]);
-        for(int k=0;k<f;k++){
-             if (frames[k] != '\0') {
-                printf("%c\t", frames[k]);
-            } else {
-                printf(" \t"); // Empty frame
-            }
-        }
-        if(found){
-            printf("Hit\n");
-        }
-        else{
-            printf("Fault\n");
-        }
-    }
-    printf("\n\nTotal Number of Page Hits : %d",pageHits);
-    printf("\nTotal Number of Page Faults : %d\n\n",pageFaults);
+	cout << "Seek sequence: ";
+	for (int i = 0; i < ans.size(); i++)
+	{
+		cout << ans[i] << " ";
+	}
+	cout << endl;
+	cout << "Total seek time: " << seek_time << endl;
 }
 
-void lru() {
-    int f;
-    char s[100];
-    printf("Enter the Pages string: ");
-    scanf("%s", s);
-    printf("Enter the number of Frames: ");
-    scanf("%d", &f);
-    char frames[f];
-    int pageHits = 0;
-    int pageFaults = 0;
-    int age[f]; // Array to keep track of age for each frame
-
-    printf("\n\t");
-    for (int i = 0; i < f; i++) {
-        printf("F%d\t", i + 1);
-        age[i] = 0;
-    }
-    printf("\n");
-
-    for (int i = 0; i < f; i++) {
-        frames[i] = '\0'; // Initialize frames to NULL character
-    }
-
-    for (int i = 0; i < strlen(s); i++) {
-        bool found = false;
-        for (int j = 0; j < f; j++) {
-            if (frames[j] == s[i]) {
-                pageHits++;
-                found = true;
-                // Update the age of the frame
-                age[j] = 0;
-                // Increment age for other frames
-                for (int k = 0; k < f; k++) {
-                    if (k != j) {
-                        age[k]++;
-                    }
-                }
-            } else {
-                // Increment the age for frames that are not hit
-                age[j]++;
-            }
-        }
-        if (!found) {
-            if (pageFaults < f) {
-                frames[pageFaults] = s[i];
-                age[pageFaults] = 0;
-            } else {
-                int max_age = age[0];
-                int max_age_index = 0;
-                // Find the frame with the maximum age
-                for (int k = 1; k < f; k++) {
-                    if (age[k] > max_age) {
-                        max_age = age[k];
-                        max_age_index = k;
-                    }
-                }
-                frames[max_age_index] = s[i];
-                age[max_age_index] = 0;
-            }
-            pageFaults++;
-        }
-
-        printf("Page %c : ", s[i]);
-        for (int k = 0; k < f; k++) {
-            if (frames[k] != '\0') {
-                printf("%c\t", frames[k]);
-            } else {
-                printf(" \t"); // Empty frame
-            }
-        }
-        if (found) {
-            printf("Hit\n");
-        } else {
-            printf("Fault\n");
-        }
-    }
-
-    printf("\n\nTotal Number of Page Hits: %d", pageHits);
-    printf("\nTotal Number of Page Faults: %d\n\n", pageFaults);
+void sstf(int n, int head, vector<int> &req)
+{
+	vector<int> ans;
+	int cur = head;
+	int seek_time = 0;
+	vector<int> temp = req;
+	ans.push_back(head);
+	while (!temp.empty())
+	{
+		int mini = INT_MAX;
+		int min_ind = -1;
+		for (int i = 0; i < temp.size(); i++)
+		{
+			int seekt = abs(cur - temp[i]);
+			if (seekt < mini)
+			{
+				mini = seekt;
+				min_ind = i;
+			}
+		}
+		seek_time += mini;
+		cur = temp[min_ind];
+		ans.push_back(cur);
+		temp.erase(temp.begin() + min_ind);
+	}
+	cout << "Seek Sequence: ";
+	for (int i = 0; i < ans.size(); i++)
+	{
+		cout << ans[i] << " ";
+	}
+	cout << endl;
+	cout << "Total seek time: " << seek_time << endl;
 }
-
-int main(){
-    int c=0,ch;
-    while(c==0){
-        printf("==========Menu==========");
-        printf("\n0.Exit\n1.FIFO / FCFS\n2.Optimal\n3.LRU\n");
-        printf("Enter your choice : ");
-        scanf("%d",&ch);
-        switch(ch){
-            case 0:
-                c=1;
-                break;
-            case 1:
-                fifo();
-                break;
-            case 2:
-                optimal();
-                break;
-            case 3:
-                lru();
-                break;
-            default:
-                printf("Invalid Input !!! ");
-        }
-    }
-    return 0;
+int main()
+{
+	int n;
+	cout << "Enter the number of requests: ";
+	cin >> n;
+	int head;
+	cout << "Enter the initial disk head: ";
+	cin >> head;
+	vector<int> req(n);
+	cout << "Enter the request: ";
+	for (int i = 0; i < n; i++)
+	{
+		cin >> req[i];
+	}
+	int flag = 1;
+	while (flag)
+	{
+		cout << "**************MENU****************\n";
+		cout << "1.SSTF\n";
+		cout << "2.SCAN\n";
+		cout << "3.C-LOOK\n";
+		cout << "4.Exit\n";
+		cout << "************************************\n";
+		int ch;
+		cout << "Enter your choice: ";
+		cin >> ch;
+		switch (ch)
+		{
+		case 1:
+		{
+			sstf(n, head, req);
+			break;
+		}
+		case 2:
+		{
+			string dir;
+			cout << "Enter the direction in which we have to process: ";
+			cin >> dir;
+			scan(n, head, req, dir);
+			break;
+		}
+		case 3:
+		{
+			clook(n, head, req);
+			break;
+		}
+		case 4:
+		{
+			flag = 0;
+			break;
+		}
+		}
+	}
+	return 0;
 }
- 
