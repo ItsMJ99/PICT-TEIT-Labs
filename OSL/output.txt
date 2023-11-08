@@ -1,0 +1,3 @@
+Charcount = 4
+Word Count = 1
+Line Count = 1
