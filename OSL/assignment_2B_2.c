@@ -5,8 +5,8 @@
 #include<sys/types.h>
 
 void binarySearch(int arr[],int n){
-    int  key;
-    printf("--------------- Binat Search --------------");
+    int key;
+    printf("--------------- Binary Search --------------");
     printf("\n\nEnter the element to search : ");
     scanf("%d",&key);
     int b=0,e=n-1;
@@ -17,10 +17,10 @@ void binarySearch(int arr[],int n){
             break;
         }
         else if(key>arr[m]){
-            e=m-1;
+            b=m+1;
         }
         else {
-            b=m+1;
+            e=m-1;
         }
     }
     if(b>e){
