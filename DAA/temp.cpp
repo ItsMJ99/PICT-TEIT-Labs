@@ -1,65 +1,95 @@
 #include <iostream>
+#include <vector>
 using namespace std;
 
-struct edge
+bool isSafe(int row, int col, vector<string> board, int n)
 {
-    int src;
-    int dest;
-    int d;
-};
-
-void bellmanFord(struct edge e[], int n, int ne, int s)
-{
-    int dist[n];
-    for (int i = 0; i < n; i++)
+    int storedRow = row;
+    int storedCol = col;
+    while (row >= 0 && col >= 0)
     {
-        if (i == s)
-            dist[i] = 0;
-        else
-            dist[i] = 9999;
+        if (board[row][col] == 'Q')
+            return false;
+        col--;
+        row--;
     }
-
-    for (int i = 0; i < n - 1; i++)
+    row = storedRow;
+    col = storedCol;
+    while (col >= 0)
     {
-        for (int j = 0; j < ne; j++)
+        if (board[row][col] == 'Q')
+            return false;
+        col--;
+    }
+    row = storedRow;
+    col = storedCol;
+    while (row < n && col >= 0)
+    {
+        if (board[row][col] == 'Q')
+            return false;
+        col--;
+        row++;
+    }
+    return true;
+}
+
+void solve(int col, vector<string> &board, vector<vector<string>> &ans, int n)
+{
+    if (col == n)
+    {
+        ans.push_back(board);
+        return;
+    }
+    for (int row = 0; row < n; row++)
+    {
+        if (isSafe(row, col, board, n))
         {
-            if (dist[e[j].src] != 9999 && dist[e[j].src] + e[j].d < dist[e[j].dest])
+            board[row][col] = 'Q';
+            solve(col + 1, board, ans, n);
+            board[row][col] = '.';
+        }
+    }
+}
+
+void NQueens(int n)
+{
+    vector<vector<string>> ans;
+    vector<string> board(n, string(n, '.'));
+    solve(0, board, ans, n);
+    if (ans.size() > 0)
+    {
+        for (int i = 0; i < ans.size(); i++)
+        {
+            cout << "\nSolution " << i + 1 << endl;
+            for (int j = 0; j < n; j++)
             {
-                dist[e[j].dest] = dist[e[j].src] + e[j].d;
+                cout << "|";
+                for (int k = 0; k < n; k++)
+                {
+                    if (ans[i][j][k] == 'Q')
+                    {
+                        cout << " Q ";
+                    }
+                    else
+                    {
+                        cout << " . ";
+                    }
+                }
+                cout << "|" << endl;
             }
         }
     }
-    cout << "\n\nShortest Distance to each node : " << endl;
-    for (int i = 0; i < n; i++)
+    else
     {
-        cout << i << " = " << dist[i] << endl;
+        cout << "There were no solutions for " << n << " Queens" << endl;
     }
 }
 
 int main()
 {
-    int n, s, ne;
-    cout << "Enter number of Nodes : ";
+    int n;
+    cout << "Enter the number of Queens : ";
     cin >> n;
-    cout << "Enter the Source Node number : ";
-    cin >> s;
-    cout << "Enter number of edges : ";
-    cin >> ne;
-    edge e[ne];
-    for (int i = 0; i < ne; i++)
-    {
-        cout << "Enter node 1 : ";
-        cin >> e[i].src;
-        cout << "Enter node 2 : ";
-        cin >> e[i].dest;
-        cout << "Enter distance/cost between node 1 and node 2 : ";
-        cin >> e[i].d;
-    }
-    for (int i = 0; i < ne; i++)
-    {
-        cout << "\n"
-             << e[i].src << " -> " << e[i].dest << " = " << e[i].d;
-    }
-    bellmanFord(e, n, ne, s);
+    NQueens(n);
     return 0;
 }
