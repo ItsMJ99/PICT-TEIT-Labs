@@ -2,94 +2,96 @@
 #include <vector>
 using namespace std;
 
-bool isSafe(int row, int col, vector<string> board, int n)
+struct edges
 {
-    int storedRow = row;
-    int storedCol = col;
-    while (row >= 0 && col >= 0)
-    {
-        if (board[row][col] == 'Q')
-            return false;
-        col--;
-        row--;
-    }
-    row = storedRow;
-    col = storedCol;
-    while (col >= 0)
-    {
-        if (board[row][col] == 'Q')
-            return false;
-        col--;
-    }
-    row = storedRow;
-    col = storedCol;
-    while (row < n && col >= 0)
-    {
-        if (board[row][col] == 'Q')
-            return false;
-        col--;
-        row++;
-    }
-    return true;
-}
+    int src;
+    int dest;
+    int d;
+};
 
-void solve(int col, vector<string> &board, vector<vector<string>> &ans, int n)
+void bellmanford(struct edges e[], int s, int ne, int n)
 {
-    if (col == n)
+    int dist[n];
+    int pred[n];
+    for (int i = 0; i < n; i++)
     {
-        ans.push_back(board);
-        return;
-    }
-    for (int row = 0; row < n; row++)
-    {
-        if (isSafe(row, col, board, n))
+        if (i == s)
         {
-            board[row][col] = 'Q';
-            solve(col + 1, board, ans, n);
-            board[row][col] = '.';
+            dist[i] = 0;
+            pred[i] = -1;
+        }
+        else
+        {
+            dist[i] = 9999;
+            pred[i] = -1;
         }
     }
-}
-
-void NQueens(int n)
-{
-    vector<vector<string>> ans;
-    vector<string> board(n, string(n, '.'));
-    solve(0, board, ans, n);
-    if (ans.size() > 0)
+    for (int i = 0; i < n; i++)
     {
-        for (int i = 0; i < ans.size(); i++)
+        for (int j = 0; j < ne; j++)
         {
-            cout << "\nSolution " << i + 1 << endl;
-            for (int j = 0; j < n; j++)
+            if (dist[e[j].src] != 9999 && dist[e[j].src] + e[j].d < dist[e[j].dest])
             {
-                cout << "|";
-                for (int k = 0; k < n; k++)
-                {
-                    if (ans[i][j][k] == 'Q')
-                    {
-                        cout << " Q ";
-                    }
-                    else
-                    {
-                        cout << " . ";
-                    }
-                }
-                cout << "|" << endl;
+                dist[e[j].dest] = dist[e[j].src] + e[j].d;
+                pred[e[j].dest] = e[j].src;
             }
         }
     }
-    else
+
+    for (int i = 0; i < ne; i++)
     {
-        cout << "There were no solutions for " << n << " Queens" << endl;
+        if (dist[e[i].src] != 9999 && dist[e[i].src] + e[i].d < dist[e[i].dest])
+        {
+            cout << "Negative Cycle Found in the Graph" << endl;
+            return;
+        }
+    }
+
+    cout << "Shortest distance from source to destination node for each node given by user " << endl;
+    for (int i = 0; i < n; i++)
+    {
+        cout << s << " to " << i << " = " << dist[i] << "Path : ";
+        vector<int> pathNode;
+        int current = i;
+        while (current != -1)
+        {
+            pathNode.push_back(current);
+            current = pred[current];
+        }
+        for (int i = pathNode.size() - 1; i >= 0; i--)
+        {
+            cout << pathNode[i];
+            if (i != 0)
+                cout << " -> ";
+        }
     }
 }
 
 int main()
 {
-    int n;
-    cout << "Enter the number of Queens : ";
+    int n, ne, s;
+    cout << "Enter the number of nodes : ";
     cin >> n;
-    NQueens(n);
+    cout << "\nEnter the number of edges : ";
+    cin >> ne;
+    cout << "\nEnter the source node : ";
+    cin >> s;
+    edges e[ne];
+    cout << "\nEnter the Source Nodes and Destination along with Cost" << endl;
+    for (int i = 0; i < ne; i++)
+    {
+        cout << "Enter the Source Node number : ";
+        cin >> e[i].src;
+        cout << "Enter the Destination Node number : ";
+        cin >> e[i].dest;
+        cout << "Enter the Cost of Source to Destination : ";
+        cin >> e[i].d;
+    }
+    cout << "\nCurrent Nodes Linkage" << endl;
+    for (int i = 0; i < n; i++)
+    {
+        cout << "Source Node : " << e[i].src << " Destination Node : " << e[i].dest << " Cost : " << e[i].d << endl;
+    }
+    bellmanford(e, s, ne, n);
     return 0;
 }

@@ -1,3 +1,6 @@
+// Time Complexity O(n * cap)
+// Space Complexity O(n * cap)
+
 #include <iostream>
 using namespace std;
 

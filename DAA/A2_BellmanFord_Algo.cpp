@@ -1,3 +1,6 @@
+// time complexity  O(n * ne)
+// space complexity  O(n)
+
 #include <iostream>
 #include <vector>
 using namespace std;

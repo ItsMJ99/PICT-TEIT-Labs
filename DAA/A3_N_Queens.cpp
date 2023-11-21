@@ -1,3 +1,6 @@
+// time complexity = o(N!)
+// space complexity = O(N^2)
+
 #include <iostream>
 #include <vector>
 using namespace std;
