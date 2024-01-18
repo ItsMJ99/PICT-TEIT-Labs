@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Assignment1b_1.css">
+    <title>Login</title>
+</head>
+<body>
+    
+    <script>
+        function checkLogin(){
+            if(document.getElementById("username").value=="MJ1234" && document.getElementById("pwd").value=="mjishere"){
+                alert("Login Successful !!!");
+            }
+            else if(document.getElementById("username").value=="" || document.getElementById("pwd").value==""){
+                alert("Please Enter Valid Username and Password");
+            }
+            else{
+                alert("No User Found !!!");
+            }
+        }
+    </script>
+
+    <form action="">
+        <center>
+            <div id="login">
+                <label for="username">Username : </label>
+                <input type="text" id="username"><br><br>
+                <label for="pwd">Password : </label>
+                <input type="password" id="pwd"><br><br>
+                <button onclick="checkLogin();" id="loginBtn">Login</button>
+                <a href="Assignment1b_2.html">Sign Up</a>
+            </div>
+        </center>
+    </form>
+
+</body>
+</html>
