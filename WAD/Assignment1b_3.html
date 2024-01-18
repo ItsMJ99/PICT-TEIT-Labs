@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./Assignment1b_3.js"></script>
+    <title>User Data</title>
+</head>
+<body>
+    <p id="name"></p>
+    <p id="username"></p>
+    <p id="mobile"></p>
+    <p id="email"></p>
+    <p id="dob"></p>
+    <p id="gender"></p>
+    <p id="address"></p>
+    <p id="state"></p>
+    <p id="city"></p>
+    <p id="pincode"></p>
+    <p id="hobbies"></p>
+
+    <script>
+        // Retrieve user data from sessionStorage
+        var userDataString = sessionStorage.getItem("userData");
+
+        // Display user data
+        if (userDataString) {
+            document.getElementById("userData").innerHTML = userDataString;
+        } else {
+            // Handle the case where no data is found
+            document.getElementById("userData").innerHTML = "No user data available.";
+        }
+    </script>
+</body>
+</html>
