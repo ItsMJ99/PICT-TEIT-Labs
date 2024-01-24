@@ -1,17 +1,42 @@
-// Parsing data from url query parameters
-let urlParams = new URLSearchParams(window.location.search);
-let data = urlParams.get("data");
+document.addEventListener("DOMContentLoaded", function () {
+    var userDataBody = document.getElementById("userDataBody");
+    var users = JSON.parse(localStorage.getItem("users")) || [];
 
-data = JSON.parse(data);
-// Displaying the data
-document.getElementById("name").innerHTML = data.name;
-document.getElementById("username").innerHTML = data.username;
-document.getElementById("mobile").innerHTML = data.mobile;
-document.getElementById("email").innerHTML = data.email;
-document.getElementById("dob").innerHTML = data.dob;
-document.getElementById("gender").innerHTML = data.gender;
-document.getElementById("address").innerHTML = data.address;
-document.getElementById("state").innerHTML = data.state;
-document.getElementById("city").innerHTML = data.city;
-document.getElementById("pincode").innerHTML = data.pincode;
-document.getElementById("hobbies").innerHTML = data.hobbies;
+    displayUsers(users);
+
+    window.clearAllUsers = function () {
+        // Clear local storage
+        localStorage.removeItem("users");
+
+
+        userDataBody.innerHTML = "";
+    };
+
+    function displayUsers(users) {
+        users.forEach(function (user) {
+            var row = document.createElement("tr");
+
+            var idCell = document.createElement("td");
+            idCell.textContent = user.id;
+            row.appendChild(idCell);
+
+            var nameCell = document.createElement("td");
+            nameCell.textContent = user.name;
+            row.appendChild(nameCell);
+
+            var usernameCell = document.createElement("td");
+            usernameCell.textContent = user.username;
+            row.appendChild(usernameCell);
+
+            var emailCell = document.createElement("td");
+            emailCell.textContent = user.email;
+            row.appendChild(emailCell);
+
+            var cityCell = document.createElement("td");
+            cityCell.textContent = user.city;
+            row.appendChild(cityCell);
+
+            userDataBody.appendChild(row);
+        });
+    }
+});

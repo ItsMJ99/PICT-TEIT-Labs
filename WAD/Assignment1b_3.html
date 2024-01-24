@@ -1,35 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="./Assignment1b_3.js"></script>
-    <title>User Data</title>
+    <title>User Data List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link rel="stylesheet" href="./Assignment1b_3.css">
 </head>
+
 <body>
-    <p id="name"></p>
-    <p id="username"></p>
-    <p id="mobile"></p>
-    <p id="email"></p>
-    <p id="dob"></p>
-    <p id="gender"></p>
-    <p id="address"></p>
-    <p id="state"></p>
-    <p id="city"></p>
-    <p id="pincode"></p>
-    <p id="hobbies"></p>
+    <div class="container">
+        <h1 class="mb-4 text-center fw-bold text-decoration-underline">Users Data</h1>
 
-    <script>
-        // Retrieve user data from sessionStorage
-        var userDataString = sessionStorage.getItem("userData");
+        <center><button class="btn btn-danger clear-button" onclick="clearAllUsers()">Clear All</button></center>
 
-        // Display user data
-        if (userDataString) {
-            document.getElementById("userData").innerHTML = userDataString;
-        } else {
-            // Handle the case where no data is found
-            document.getElementById("userData").innerHTML = "No user data available.";
-        }
-    </script>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>City</th>
+                </tr>
+            </thead>
+            <tbody id="userDataBody"></tbody>
+        </table>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="./Assignment1b_3.js"></script>
 </body>
+
 </html>
