@@ -1,0 +1,15 @@
+# Using the official NGINX image as base
+FROM nginx:alpine
+
+# Setting the working directory
+WORKDIR /usr/share/nginx/html
+
+# Copying files into the container
+COPY . .
+COPY Assignment1a.html index.html
+
+# Expose port 80
+EXPOSE 80
+
+#Start Nginx when container starts
+CMD ["nginx", "-g", "daemon off;"]

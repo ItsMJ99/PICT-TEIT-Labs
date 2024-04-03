@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Registration - Anime Warehouse</title>
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="common.css">
+    <link rel="stylesheet" type="text/css" href="register.css">
+    <script>
+        $(document).on("pagecreate", "#registration-page", function() {
+            $("#registration-form").submit(function(event) {
+                event.preventDefault(); // Prevent form submission
+                var firstName = $("#first-name").val();
+                var lastName = $("#last-name").val();
+                var dob = $("#dob").val();
+                var gender = $("input[name='gender']:checked").val();
+                var country = $("#country").val();
+                var state = $("#state").val();
+                var city = $("#city").val();
+                var username = $("#username").val();
+                var password = $("#password").val();
+                var confirmPassword = $("#confirm-password").val();
+
+                if (firstName && lastName && dob && gender && country && state && city && username && password && confirmPassword) {
+                    if (password === confirmPassword) {
+                        alert("Registered successfully");
+                    } else {
+                        alert("Password and confirm password do not match");
+                    }
+                } else {
+                    alert("Please fill in all fields");
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+
+<div data-role="page" id="registration-page">
+
+    <div data-role="header" data-theme="b">
+        <h1>Anime List</h1>
+      </div>
+      <nav data-role="navbar" data-grid="c">
+        <ul>
+          <li><a href="./index.html" class="ul-btn-active">Home</a></li>
+          <li><a href="./aboutus.html" class="ul-btn-active">About Us</a></li>
+          <li><a href="./login.html" class="ul-btn-active">Login</a></li>
+          <li><a href="./register.html" class="ul-btn-active">Register</a></li>
+        </ul>
+      </nav>
+
+    <div role="main" class="register-content">
+        <form id="registration-form">
+            <div class="row">
+                <div class="column">
+                    <div class="input-group">
+                        <label for="first-name">First Name:</label>
+                        <input type="text" name="first-name" id="first-name" placeholder="Enter your first name">
+                    </div>
+                    <div class="input-group">
+                        <label for="last-name">Last Name:</label>
+                        <input type="text" name="last-name" id="last-name" placeholder="Enter your last name">
+                    </div>
+                    <div class="input-group">
+                        <label for="dob">Date of Birth:</label>
+                        <input type="date" name="dob" id="dob">
+                    </div>
+                    <div class="input-group">
+                        <label>Gender:</label>
+                        <label><input type="radio" name="gender" value="male"> Male</label>
+                        <label><input type="radio" name="gender" value="female"> Female</label>
+                        <label><input type="radio" name="gender" value="other"> Other</label>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="input-group">
+                        <label for="country">Country:</label>
+                        <input type="text" name="country" id="country" placeholder="Enter your country">
+                    </div>
+                    <div class="input-group">
+                        <label for="state">State:</label>
+                        <input type="text" name="state" id="state" placeholder="Enter your state">
+                    </div>
+                    <div class="input-group">
+                        <label for="city">City:</label>
+                        <input type="text" name="city" id="city" placeholder="Enter your city">
+                    </div>
+                    <div class="input-group">
+                        <label for="username">Username:</label>
+                        <input type="text" name="username" id="username" placeholder="Choose a username">
+                    </div>
+                    <div class="input-group">
+                        <label for="password">Password:</label>
+                        <input type="password" name="password" id="password" placeholder="Choose a password">
+                    </div>
+                    <div class="input-group">
+                        <label for="confirm-password">Confirm Password:</label>
+                        <input type="password" name="confirm-password" id="confirm-password" placeholder="Confirm your password">
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="ui-btn ui-btn-b">Register</button>
+        </form>
+    </div>
+
+    <div data-role="footer" data-theme="b" data-position="fixed">
+        <center>
+            <div class="quicklinks">
+                <h3>Quick Links</h3>
+                <div class="cols">
+                    <div class="col">
+                        <a href="./index.html">Home</a><br /><br />
+                        <a href="./aboutus.html">About Us</a><br /><br />
+                    </div>
+                    <div class="col">
+                        <a href="./login.html">Login</a><br /><br />
+                        <a href="./register.html">Register</a><br /><br />
+                    </div>
+                </div>
+            </div>
+            <p>&#169; Copyright 2024 | Anime Warehouse, All Rights Reserved</p>
+        </center>
+    </div>
+
+</div>
+
+</body>
+</html>

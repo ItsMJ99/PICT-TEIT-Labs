@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>User Data</title>
+</head>
+<body>
+<div class="container-fluid d-flex flex-column align-items-center justify-content-center position-relative">
+	<div class="card w-25 mt-xxl-5 align-items-center justify-content-center shadow">
+		<h1>Welcome User</h1>
+		<p>Full Name : {{user.fname}}</p>
+		<p>Date of Birth : {{user.dob}}</p>
+		<p>Username: {{user.username}}</p>
+		<p>Email: {{user.email}}</p>
+		<p>State: {{user.state}}</p>
+		<p>City: {{user.city}}</p>
+		<p>Pincode: {{user.pincode}}</p>
+	</div>
+
+	<div class="mt-4">
+		<div class="btn btn-secondary me-5 link-opacity-25-hover" routerLink="/login">Login</div>
+		<div class="btn btn-secondary link-opacity-25-hover" routerLink="/register">Register</div>
+	</div>
+</div>
+</body>
+</html>
