@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vegipedia</title>
+    <link
+      rel="stylesheet"
+      href="./bootstrap-4.0.0-dist/css/bootstrap.min.css"
+    />
+
+    <style>
+      .side-bar-links {
+        list-style-type: none;
+        padding-left: 0;
+      }
+
+      .side-bar-links li:hover {
+        background-color: rgb(157, 188, 228);
+      }
+
+     
+
+      .table tbody {
+        background-color: rgb(241, 239, 234);
+      }
+
+      .main-sub-text{
+        font-size: 20px;
+      }
+
+      .sub-text{
+        font-size: 16px;
+      }
+
+      .custom-alert{
+        background-color: rgb(221, 152, 152);
+        text-align: center;
+        border: 1px solid red;
+        height: 2rem;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid mx-0">
+      <div class="row">
+        <div class="col-lg-3">
+          <h3>Some Favourites</h3>
+          <ul class="side-bar-links">
+            <li value="celery" onclick="changeContent('celery');"><a href="#">Celery Root</a></li>
+            <li value="squash" onclick="changeContent('squash');"><a href="#">Spaghetti Squash</a></li>
+            <li value="mushroom" onclick="changeContent('mushroom');"><a href="#">Killer Mushrooms</a></li>
+          </ul>
+          <input type="text" /><br />
+          <button class="btn btn-primary py-1 px-2 mt-2" onclick="showAlert();">Search Recipes</button>
+        </div>
+        <div class="main-body col-lg-9">
+            <div class="custom-alert" id="show-alert">This feature is under development</div>
+          <h1 id="main-title">Wild & Wacky Vegetables</h1>
+          <p class="main-sub-text" id="main-info">
+            The beet is the most intense of vegetables. The radish, admittedly,
+            is more feverish, but the fire of the radish is a cold fire, the
+            fire of discontent not of passion. Tomatoes are lusty enough, yet
+            there runs through tomatoes an undercurrent of frivolity. Beets are
+            deadly serious.
+          </p>
+          <h2>Some Disease</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Veggie</th>
+                <th>Disease</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Beets</td>
+                <td>Beeturia</td>
+              </tr>
+              <tr>
+                <td>Carrots</td>
+                <td>Carotenosis</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="row img-desc">
+            <div class="col-lg-4">
+              <img
+                src="http://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Beets-Bundle.jpg/800px-Beets-Bundle.jpg"
+                alt=""
+                class="col"
+              />
+              <h4>Beets</h4>
+              <p class="sub-text">Careful not to get your hands dirty.</p>
+            </div>
+            <div class="col-lg-4">
+              <img
+                src="http://upload.wikimedia.org/wikipedia/commons/9/9e/CarrotDiversityLg.jpg"
+                alt=""
+                class="col"
+              />
+              <h4>Carrots</h4>
+              <p class="sub-text">Not sticks, can motivate.</p>
+            </div>
+            <div class="col-lg-4">
+              <img
+                src="http://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Green_Asparagus_New_York_11_May_2006.jpg/220px-Green_Asparagus_New_York_11_May_2006.jpg"
+                alt=""
+                class="col"
+              />
+              <h4>Asparagus</h4>
+              <p class="sub-text">Spears, spears, spears.</p>
+            </div>
+          </div>
+          <h2>Really informative info</h2>
+          <p class="sub-text">Kale courgette salsify mustard broccoli seakale wakame potato fava bean tigernut leek celery spinach avocado cabbage celtuce rutabaga kohlrabi. Parsnip pea soko groundnut bitterleaf spring onion. Grape dulse rutabaga lentil gram kakadu plum water spinach cabbage lotus root.
+            Mung bean quandong kale prairie turnip celery gram zucchini pumpkin green bean silver beet chard endive komatsuna eggplant kakadu plum radish broccoli. Arugula amaranth fennel wakame peanut garlic chickweed. 
+            Sorrel jícama quandong kale chickpea water chestnut rock melon aubergine lettuce pea azuki bean cress onion sea lettuce dandelion nori dulse rutabaga. 
+            Coriander napa cabbage bok choy carrot kakadu plum brussels sprout bamboo shoot salad okra cucumber garlic kombu beet greens cauliflower summer purslane. 
+            Artichoke daikon horseradish arugula taro catsear kombu rock melon pea sprouts collard greens mustard courgette lettuce soko maize plantain.</p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+        function changeContent(item){
+            if(item === 'celery'){
+                document.getElementById('main-title').innerText='Celery Root';
+                document.getElementById('main-info').innerText='Some Information about Celery Root';
+            }
+            else if(item === 'squash'){
+                document.getElementById('main-title').innerText='Spaghetti Squash';
+                document.getElementById('main-info').innerText='Some Information about Spaghetti Squash';
+            }
+            else if(item === 'mushroom'){
+                document.getElementById('main-title').innerText='Killer Mushroom';
+                document.getElementById('main-info').innerText='some Information about Killer Mushroom';
+            }
+        }
+
+        showAlert = () => {
+            document.getElementById("show-alert").style.display = "block";
+            setTimeout(()=>{
+                document.getElementById("show-alert").style.display = "none";
+            },3000);
+        }
+    </script>
+  </body>
+</html>

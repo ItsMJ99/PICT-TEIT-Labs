@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="Problem Statement W-6 Table 3.css" />
+    <script src="./Problem Statement W-6 Table 3.js"></script>
+    <title>Table Creator</title>
+  </head>
+  <body>
+    <div class="main">
+      <div class="row">
+        <label for="#input-1">Enter Row, Col and Start Value for Table 1</label
+        ><br /><br />
+        <input
+          type="text"
+          name=""
+          id="input-1"
+          placeholder="rows # columns # startvalue"
+        /><br /><br />
+        <br /><br />
+        <label for="#input-2">Enter Row, Col and Start Value for Table 2</label
+        ><br /><br />
+        <input
+          type="text"
+          name=""
+          id="input-2"
+          placeholder="rows # columns # startvalue"
+        /><br /><br />
+        <br /><br />
+        <button
+          type="button"
+          onclick="createTable(document.getElementById('input-1').value,document.getElementById('input-2').value)"
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+    <br />
+    <div class="tables">
+      <div id="table1-container"></div>
+      <div id="table2-container"></div>
+      <div id="table3-container"></div>
+    </div>
+  </body>
+</html>

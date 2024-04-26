@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Form</title>
+
+    <style>
+      .form-title {
+        text-align: center;
+        background-color: rgb(255, 255, 132);
+        color: red;
+        font-family: "Times New Roman", Times, serif;
+        font-weight: 800;
+        border: 1px solid black;
+        padding: 10px;
+        margin: 0;
+        margin-bottom: 0.5rem;
+      }
+
+      form {
+        padding: 1rem;
+        border: 1px solid black;
+      }
+
+      table {
+        width: 100%;
+      }
+
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+        background-color: aqua;
+      }
+      */ 
+      
+      table,
+      th,
+      td {
+        border: 1px solid black;
+      }
+
+      .left-label{
+        text-align: center;
+      }
+
+      input[type="text"],
+      input[type="password"],
+      textarea,
+      select,
+      button,
+      input[type="file"] {
+        width: 100%;
+        padding: 8px;
+        margin-top: 4px;
+        margin-bottom: 8px;
+        border: 1px solid black;
+        box-sizing: border-box;
+      }
+
+      input[type="file"] {
+        background-color: white;
+      }
+
+      .left-label{
+        display: block;
+        text-align: center;
+      }
+
+      button {
+        width: 32.7%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <form action="" style="max-width: 600px; margin: auto">
+        <h1 class="form-title">User Form</h1>
+
+        <table>
+          <tr>
+            <td><label for="name" class="left-label">Enter Name</label></td>
+            <td><input type="text" id="name" name="name" /></td>
+          </tr>
+          <tr>
+            <td><label for="password" class="left-label">Enter Password</label></td>
+            <td><input type="password" id="password" name="password" /></td>
+          </tr>
+          <tr>
+            <td><label for="address" class="left-label">Enter Address</label></td>
+            <td><textarea id="address" name="address" rows="3"></textarea></td>
+          </tr>
+          <tr>
+            <td><label class="left-label">Select Game</label></td>
+            <td>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="hockey"
+                />
+                <label class="form-check-label" for="hockey">Hockey</label
+                ><br>
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="football"
+                />
+                <label class="form-check-label" for="football">Football</label
+                ><br>
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="badminton"
+                />
+                <label class="form-check-label" for="badminton">Badminton</label
+                ><br>
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="cricket"
+                />
+                <label class="form-check-label" for="cricket">Cricket</label
+                ><br>
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="volleyball"
+                />
+                <label class="form-check-label" for="volleyball"
+                  >Volleyball</label
+                >
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><label class="left-label">Gender</label></td>
+            <td>
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="gender"
+                  id="male"
+                  checked
+                />
+                <label class="form-check-label" for="male">Male</label>
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="gender"
+                  id="female"
+                />
+                <label class="form-check-label" for="female">Female</label>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2"><input type="file" id="file" name="file" /></td>
+          </tr>
+          <tr class="button-row">
+            <td colspan="2">
+              <button><a href="./Problem Statement W-10 Facebook.html">Click Me</a></button>
+              <button type="reset">Reset</button>
+              <button type="submit">Submit</button>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+  </body>
+</html>

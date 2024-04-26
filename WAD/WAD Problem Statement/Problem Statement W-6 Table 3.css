@@ -1,0 +1,37 @@
+.main{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.row{
+    border: 2px solid black;
+    text-align: center;
+    padding: 2rem;
+}
+
+table{
+    border: 2px solid black;
+    color: black;
+    margin-left: 3rem;
+}
+
+td,th,tr{
+    text-align: center;
+    font-size: 26px;
+    border: 2px solid black;
+    width: 100px;
+    height: 100px;
+}
+
+.tables{
+    display: flex;
+}
+
+.same-value{
+    background-color: lightgreen;
+}
+
+.different-value{
+    background-color: aqua;
+}

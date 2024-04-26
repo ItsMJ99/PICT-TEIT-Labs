@@ -1,0 +1,55 @@
+.git = by default a hidden directory.
+
+git init = initialize a git repository
+
+git add README.md
+git add dir/
+git add <filename> = add a file to dir.
+e.g git add File\ Name \ifseperate \words.
+git add */ git add . /git add -A or git add --all = adds all the files in the directory.
+
+git status = shows the files status, 
+	red = untracked files in dir, not added to git repository.
+	green = tracked files in dir.
+
+git commit -m "type your message here" = your changes are in your local working copy.
+git commit -am "message" = -am : All commits with message
+
+git commit -amend = you can undo a mistake/change that you didn't push on the online git repository yet. 
+	
+git remote add origin <server> = to select which repository on github to link to so as to store the files.
+e.g = git remote add origin git@github.com:ItsMJ99/learning-github.git
+
+git branch -M <branch name> = to specify which branch to add the changes to.
+
+git push origin <branch name> = to push the changes to specific branch.
+
+git reset --hard <unique identifier> = go back to the specific identifier related commit.
+
+git checkout -b <branch name> = To create a branch with specified name.
+git branch -d <branch name> = To delete a branch.
+git branch = to get the current branch name and also the list of branches.
+git push origin <branch> = To put your branch online.
+git checkout master/main/<branch name> = To switch from current branch to other branch.
+git merge <branch> = To merge a branch
+
+git pull = to get the latest changes in the repository.
+
+git clone username@host:/path/to/repository = to get the remote git service repository from github, so as to work on it.
+git clone /path/to/repository = if repository is on a network drive, you can use the command.
+
+git log = get projects version history such as projects commit message, commir id.
+
+git tag <ver name> <commit id>
+e.g git tag 1.0.0 ab454dsd56
+
+git config --list - to list the current credentials
+
+connect github to git
+git config --global user.name "Your New Name"
+git config --global user.email "your_new_email@example.com"
+
+remove git credentials from pc
+echo -e "host=github.com\nprotocol=https\n" | git credential-osxkeychain erase
+git config --unset-all --global user.name
+git config --unset-all --global user.email

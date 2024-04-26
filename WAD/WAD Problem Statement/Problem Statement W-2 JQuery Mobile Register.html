@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"
+    />
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <title>Register</title>
+
+    <style>
+        .registration-form{
+            margin: auto;
+            margin-top: 5rem;
+        }
+
+        .col2{
+            margin-left: 2%;
+        }
+
+        .row{
+            display: flex;
+            align-content: center;
+            justify-content: center;
+        }
+
+      .custom-footer{
+        text-align: center;
+        align-content: center;
+        height: 3rem;
+        bottom: 0;
+        position: fixed;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-role="page">
+      <div data-role="header" data-theme="b"><h1>Tech Ecommerce</h1></div>
+      <nav data-role="navbar" data-grid="c">
+        <ul>
+            <li>
+              <a
+                href="./Problem Statement W-2 JQuery Mobile.html"
+                class="ul-btn-active"
+                >Home</a
+              >
+            </li>
+            <li>
+              <a
+                href="./Problem Statement W-2 JQuery Mobile About Us.html"
+                class="ul-btn-active"
+                >About Us</a
+              >
+            </li>
+            <li><a href="./Problem Statement W-2 JQuery Mobile Login.html" class="ul-btn-active">Login</a></li>
+            <li>
+              <a
+                href="./Problem Statement W-2 JQuery Mobile Register.html"
+                class="ul-btn-active"
+                >Register</a
+              >
+            </li>
+      </nav>
+
+      <div role="main">
+        <center><h1>Registration Form</h1></center>
+        <form action="" class="registration-form">
+            
+            <div class="row">
+                <div class="column">
+                    <label for=""></label>
+            <input type="text" name="fname" id="fname" placeholder="First Name">
+            
+            <label for="email"></label>
+            <input type="text" name="email" id="email" placeholder="Email">
+
+            <label for=""></label>
+            <input type="password" name="" id="" placeholder="Password">
+
+            <label for=""></label>
+            <input type="date" name="" id="" >
+
+            <label for="">
+                <input type="radio" name="gender" id="" value="Male">Male</label>
+                <button type="reset">Reset</button>
+            </div>
+
+            <div class="column col2">
+                    <label for=""></label>
+            <input type="text" name="lname" id="lname" placeholder="Last Name">
+            
+            <label for=""></label>
+            <input type="text" name="" id="" placeholder="Phone Number">
+
+            <label for=""></label>
+            <input type="password" name="" id="" placeholder="Confirm Password">
+
+            <label for=""></label>
+            <input type="text" name="" id="" placeholder="Address">
+            <label for=""><input type="radio" name="gender" id="" value="Female">Female</label>
+            <button type="submit">Register</button>
+                </div>
+            </div>
+            
+        </form>
+      </div>
+
+      <div data-role="footer" class="custom-footer" data-theme="b">
+        &#169; 2024 Tech Ecommerce | All Rights Reserved
+      </div>
+    </div>
+  </body>
+</html>

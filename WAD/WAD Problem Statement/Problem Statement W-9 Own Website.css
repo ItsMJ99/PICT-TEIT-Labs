@@ -1,0 +1,37 @@
+img{
+    width: 100%;
+}
+
+p{
+    font-size: 20px;
+    text-align: justify;
+}
+
+.about-us-info h3{
+    text-align: center;
+}
+
+th{
+    background-color: black;
+    color: white;
+    text-align: center;
+    font-size: 20px;
+}
+
+td{
+    text-align: center;
+    font-size: 20px;
+}
+
+#footer-links{
+    text-align: center;
+    padding-top: 0.5rem;
+    color: white;
+    height: 3rem;
+    width: 100%;
+    background-color: black;
+}
+
+h4{
+    text-decoration: underline;
+}
